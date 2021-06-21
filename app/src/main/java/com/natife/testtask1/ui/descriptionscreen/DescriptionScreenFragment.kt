@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.natife.testtask1.data.Item
 import com.natife.testtask1.databinding.FragmentDescriptionScreenBinding
+import com.natife.testtask1.ui.mainscreen.ItemHolder
 
 class DescriptionScreenFragment : Fragment() {
 

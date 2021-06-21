@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">TestTask1</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name_item">"name - "</string>
+    <string name="notification_title">Title</string>
+    <string name="notification_message">Message</string>
+    <string name="ticker_text">Ticker</string>
+    <string name="channel_name">channel</string>
+    <string name="channel_description">channel_description</string>
+</resources>

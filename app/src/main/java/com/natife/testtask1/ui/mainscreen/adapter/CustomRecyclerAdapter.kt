@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.natife.testtask1.data.Item
 import com.natife.testtask1.databinding.ListItemBinding
 
-class CustomRecyclerAdapter : RecyclerView.Adapter<CustomRecyclerAdapter.CustomViewHolder>() {
+class CustomRecyclerAdapter(
+    private var listener: OnItemClickListener
+) : RecyclerView.Adapter<CustomRecyclerAdapter.CustomViewHolder>() {
 
     private var listItem: ArrayList<Item> = arrayListOf()
-    private lateinit var listener: OnItemClickListener
-
 
     class CustomViewHolder(
         private val listener: OnItemClickListener,
@@ -45,10 +45,6 @@ class CustomRecyclerAdapter : RecyclerView.Adapter<CustomRecyclerAdapter.CustomV
     fun updateList(list: List<Item>) {
         listItem.addAll(list)
         notifyDataSetChanged()
-    }
-
-    fun initListener(listener: OnItemClickListener) {
-        this.listener = listener
     }
 
     interface OnItemClickListener {

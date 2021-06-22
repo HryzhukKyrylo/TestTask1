@@ -1,7 +1,6 @@
 package com.natife.testtask1
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
@@ -11,10 +10,8 @@ import androidx.navigation.fragment.NavHostFragment
 import com.natife.testtask1.databinding.ActivityMainBinding
 import com.natife.testtask1.utils.Const
 import com.natife.testtask1.utils.CustomService
-import com.natife.testtask1.utils.PreferenceHelper
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var preferences: SharedPreferences
     private lateinit var binding: ActivityMainBinding
 
     private val myIntent: Intent by lazy {
@@ -27,14 +24,13 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initPreference()
         startMyIntent()
         checkArg()
     }
 
     private fun checkArg() {
-        val idArg = intent.extras?.getInt(Const.RECEIVE_VAL)
-        if (idArg != 20 && idArg != null) {
+        val idArg = intent.extras?.getInt(Const.RECEIVE_VAL, Const.DEFAULT_VAL)
+        if (idArg != Const.DEFAULT_VAL && idArg != null) {
             val navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
             val navController = navHostFragment.navController
@@ -43,10 +39,6 @@ class MainActivity : AppCompatActivity() {
                 bundleOf(Const.BUNDLE_VAL to idArg)
             )
         }
-    }
-
-    private fun initPreference() {
-        preferences = PreferenceHelper.customPreference(this, Const.CUSTOM_PREF_NAME)
     }
 
     private fun startMyIntent() {

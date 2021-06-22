@@ -23,9 +23,8 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener
 
     private lateinit var preferences: SharedPreferences
     private lateinit var binding: FragmentMainScreenBinding
-    private val adapter: CustomRecyclerAdapter by lazy { CustomRecyclerAdapter() }
+    private val adapter: CustomRecyclerAdapter by lazy { CustomRecyclerAdapter(this) }
     private var listItems = mutableListOf<Item>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +54,6 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener
     private fun init() {
         binding.recyclerItems.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerItems.adapter = adapter
-        adapter.initListener(this)
     }
 
     override fun onItemClicked(id: Int) {
@@ -64,7 +62,4 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener
         val bundle = bundleOf(Const.BUNDLE_VAL to id)
         findNavController().navigate(R.id.navigateToDescriptionScreen, bundle)
     }
-
 }
-
-

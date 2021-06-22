@@ -36,5 +36,4 @@ class DescriptionScreenFragment : Fragment() {
             findNavController().popBackStack()
         }
     }
-
 }

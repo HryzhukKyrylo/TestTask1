@@ -3,12 +3,8 @@ package com.natife.testtask1.utils
 import android.content.Context
 import android.content.SharedPreferences
 
-/**
- *@author admin
- */
 object PreferenceHelper {
     private const val ITEM_ID = "ID"
-
 
     fun customPreference(context: Context, name: String): SharedPreferences =
         context.getSharedPreferences(
@@ -22,10 +18,10 @@ object PreferenceHelper {
     }
 
     var SharedPreferences.id
-        get() = getInt(ITEM_ID, 20)
-    set(value) {
-        editMe {
-            it.putInt(ITEM_ID, value)
+        get() = getInt(ITEM_ID, Const.DEFAULT_VAL)
+        set(value) {
+            editMe {
+                it.putInt(ITEM_ID, value)
+            }
         }
-    }
 }

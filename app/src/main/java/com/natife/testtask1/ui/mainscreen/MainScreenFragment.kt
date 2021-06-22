@@ -1,11 +1,11 @@
 package com.natife.testtask1.ui.mainscreen
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,10 +13,15 @@ import com.natife.testtask1.R
 import com.natife.testtask1.data.Item
 import com.natife.testtask1.databinding.FragmentMainScreenBinding
 import com.natife.testtask1.ui.mainscreen.adapter.CustomRecyclerAdapter
+import com.natife.testtask1.utils.Const
+import com.natife.testtask1.utils.ItemHolder
+import com.natife.testtask1.utils.PreferenceHelper
+import com.natife.testtask1.utils.PreferenceHelper.id
 
 
 class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener {
 
+    private lateinit var preferences: SharedPreferences
     private lateinit var binding: FragmentMainScreenBinding
     private val adapter: CustomRecyclerAdapter by lazy { CustomRecyclerAdapter() }
     private var listItems = mutableListOf<Item>()
@@ -27,6 +32,7 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMainScreenBinding.inflate(inflater, container, false)
+        preferences = PreferenceHelper.customPreference(requireContext(),Const.CUSTOM_PREF_NAME)
         return binding.root
     }
 
@@ -36,7 +42,6 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener
         init()
         generateItems()
         updateListRecycler()
-
     }
 
     private fun updateListRecycler() {
@@ -44,41 +49,22 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener
     }
 
     private fun generateItems() {
-        for (i in 0..19) {
-            listItems.add(
-                Item(
-                    id = i,
-                    name = "name$i",
-                    description = "description$i"
-                )
-            )
-        }
+        listItems.addAll(ItemHolder.items)
     }
 
     private fun init() {
-
         binding.recyclerItems.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerItems.adapter = adapter
         adapter.initListener(this)
     }
 
-    override fun onItemClicked(item: Item) {
-        var bundle = bundleOf("item" to item)
+    override fun onItemClicked(id: Int) {
+        preferences.id = id
+
+        val bundle = bundleOf(Const.BUNDLE_VAL to id)
         findNavController().navigate(R.id.navigateToDescriptionScreen, bundle)
     }
 
-
 }
 
-object ItemHolder {
 
-    val items by lazy {
-        (0 until 20).map { i ->
-            Item(
-                id = i,
-                name = "name$i",
-                description = "description$i"
-            )
-        }
-    }
-}

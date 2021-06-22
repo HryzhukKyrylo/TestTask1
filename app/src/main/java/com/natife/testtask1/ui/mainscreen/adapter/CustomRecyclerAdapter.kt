@@ -14,14 +14,15 @@ class CustomRecyclerAdapter : RecyclerView.Adapter<CustomRecyclerAdapter.CustomV
 
     class CustomViewHolder(
         private val listener: OnItemClickListener,
-        private val itemBinding: ListItemBinding) :
+        private val itemBinding: ListItemBinding
+    ) :
         RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(item: Item) {
             itemBinding.apply {
                 nameItem.text = item.name
             }
             itemBinding.root.setOnClickListener {
-                listener.onItemClicked(item)
+                listener.onItemClicked(item.id)
             }
         }
     }
@@ -30,7 +31,8 @@ class CustomRecyclerAdapter : RecyclerView.Adapter<CustomRecyclerAdapter.CustomV
         val binding = ListItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
-            false)
+            false
+        )
         return CustomViewHolder(listener, binding)
     }
 
@@ -45,11 +47,11 @@ class CustomRecyclerAdapter : RecyclerView.Adapter<CustomRecyclerAdapter.CustomV
         notifyDataSetChanged()
     }
 
-     fun initListener(listener : OnItemClickListener){
+    fun initListener(listener: OnItemClickListener) {
         this.listener = listener
     }
 
-    interface OnItemClickListener{
-        fun onItemClicked(item: Item)
+    interface OnItemClickListener {
+        fun onItemClicked(id: Int)
     }
 }

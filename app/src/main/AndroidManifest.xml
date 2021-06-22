@@ -13,7 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TestTask1">
 
-        <service android:name=".utils.CustomService" />
+        <service
+            android:name=".utils.CustomService"
+            android:exported="false"
+            />
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -22,6 +25,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".utils.CustomReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.natife.testtask1.utils.ITEM_CLICKED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

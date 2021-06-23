@@ -50,7 +50,7 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener
     }
 
     override fun onItemClicked(id: Int) {
-        preferences.id = id
+
         presenter.saveId(preferences, id)
 
         val bundle = bundleOf(Const.BUNDLE_VAL to id)

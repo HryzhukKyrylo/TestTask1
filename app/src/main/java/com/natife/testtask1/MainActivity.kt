@@ -14,10 +14,6 @@ import com.natife.testtask1.utils.CustomService
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-    private val myIntent: Intent by lazy {
-        Intent(this, CustomService::class.java)
-    }
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +38,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startMyIntent() {
-        startService(myIntent)
+        startService(Intent(this, CustomService::class.java))
     }
 }

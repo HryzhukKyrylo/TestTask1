@@ -1,6 +1,6 @@
 package com.natife.testtask1.utils
 
-import com.natife.testtask1.data.Item
+import com.natife.testtask1.mvp.model.Item
 
 object ItemHolder {
 

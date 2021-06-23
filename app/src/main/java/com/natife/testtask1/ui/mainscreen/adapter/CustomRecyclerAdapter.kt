@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.natife.testtask1.data.Item
+import com.natife.testtask1.mvp.model.Item
 import com.natife.testtask1.databinding.ListItemBinding
 
 class CustomRecyclerAdapter(

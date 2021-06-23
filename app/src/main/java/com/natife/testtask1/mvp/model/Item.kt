@@ -1,4 +1,4 @@
-package com.natife.testtask1.data
+package com.natife.testtask1.mvp.model
 
 data class Item(
     val id: Int,

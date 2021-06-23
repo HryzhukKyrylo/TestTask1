@@ -18,7 +18,6 @@ import com.natife.testtask1.utils.ItemHolder
 import com.natife.testtask1.utils.PreferenceHelper
 import com.natife.testtask1.utils.PreferenceHelper.id
 
-
 class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener {
 
     private lateinit var preferences: SharedPreferences

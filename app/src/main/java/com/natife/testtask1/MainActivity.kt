@@ -29,16 +29,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkArg() {
-        val idArg = intent.extras?.getInt(Const.RECEIVE_VAL, Const.DEFAULT_VAL)
-        if (idArg != Const.DEFAULT_VAL && idArg != null) {
-            val navHostFragment =
-                supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-            val navController = navHostFragment.navController
-            navController.navigate(
-                R.id.navigateToDescriptionScreen,
-                bundleOf(Const.BUNDLE_VAL to idArg)
-            )
-        }
+        intent.extras?.getInt(Const.RECEIVE_VAL, Const.DEFAULT_VAL)
+            .takeIf { it != Const.DEFAULT_VAL }?.also {
+                val navHostFragment =
+                    supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+                val navController = navHostFragment.navController
+                navController.navigate(
+                    R.id.navigateToDescriptionScreen,
+                    bundleOf(Const.BUNDLE_VAL to it)
+                )
+            }
     }
 
     private fun startMyIntent() {

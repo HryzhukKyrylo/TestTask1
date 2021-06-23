@@ -10,9 +10,10 @@ import com.natife.testtask1.MainActivity
 import com.natife.testtask1.R
 import com.natife.testtask1.ui.mainscreen.MainScreenFragment
 
+private const val NOTIFICATION_ID = 888
+private const val CHANNEL_ID = "natification"
+
 class CustomService : Service() {
-    val NOTIFICATION_ID = 888
-    val CHANNEL_ID = "natification"
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         createNotificationChannel()

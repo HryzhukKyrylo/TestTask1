@@ -2,15 +2,14 @@ package com.natife.testtask1.ui.mainscreen.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.natife.testtask1.data.Item
 import com.natife.testtask1.databinding.ListItemBinding
 
 class CustomRecyclerAdapter(
-    private var listener: OnItemClickListener
-) : RecyclerView.Adapter<CustomRecyclerAdapter.CustomViewHolder>() {
-
-    private var listItem: ArrayList<Item> = arrayListOf()
+    private val listener: OnItemClickListener
+) : ListAdapter<Item, CustomRecyclerAdapter.CustomViewHolder>(ItemDiff()) {
 
     class CustomViewHolder(
         private val listener: OnItemClickListener,
@@ -18,11 +17,11 @@ class CustomRecyclerAdapter(
     ) :
         RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(item: Item) {
-            itemBinding.apply {
+            with(itemBinding) {
                 nameItem.text = item.name
-            }
-            itemBinding.root.setOnClickListener {
-                listener.onItemClicked(item.id)
+                root.setOnClickListener {
+                    listener.onItemClicked(item.id)
+                }
             }
         }
     }
@@ -37,14 +36,7 @@ class CustomRecyclerAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: CustomViewHolder, position: Int) {
-        viewHolder.bind(listItem[position])
-    }
-
-    override fun getItemCount() = listItem.size
-
-    fun updateList(list: List<Item>) {
-        listItem.addAll(list)
-        notifyDataSetChanged()
+        viewHolder.bind(getItem(position))
     }
 
     interface OnItemClickListener {

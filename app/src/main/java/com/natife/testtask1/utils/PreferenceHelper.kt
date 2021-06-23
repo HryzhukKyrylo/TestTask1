@@ -2,6 +2,7 @@ package com.natife.testtask1.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 
 object PreferenceHelper {
     private const val ITEM_ID = "ID"
@@ -11,17 +12,11 @@ object PreferenceHelper {
             name, Context.MODE_PRIVATE
         )
 
-    private inline fun SharedPreferences.editMe(operation: (SharedPreferences.Editor) -> Unit) {
-        val editMe = edit()
-        operation(editMe)
-        editMe.apply()
-    }
-
     var SharedPreferences.id
         get() = getInt(ITEM_ID, Const.DEFAULT_VAL)
         set(value) {
-            editMe {
-                it.putInt(ITEM_ID, value)
+            edit {
+                this.putInt(ITEM_ID, value)
             }
         }
 }

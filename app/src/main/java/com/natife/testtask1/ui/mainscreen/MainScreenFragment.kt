@@ -44,7 +44,7 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener
     }
 
     private fun updateListRecycler() {
-        adapter.updateList(listItems)
+        adapter.submitList(listItems)
     }
 
     private fun generateItems() {

@@ -5,14 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.natife.testtask1.databinding.FragmentDescriptionScreenBinding
 import com.natife.testtask1.utils.Const
-import com.natife.testtask1.utils.ItemHolder
+import com.natife.testtask1.viewmodel.SharedViewModel
 
 class DescriptionScreenFragment : Fragment() {
 
     private lateinit var binding: FragmentDescriptionScreenBinding
+    private val viewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,13 +29,15 @@ class DescriptionScreenFragment : Fragment() {
 
         val idArg = arguments?.getInt(Const.BUNDLE_VAL)
 
-        val item = ItemHolder.items.firstOrNull { it.id == idArg }
-        if (item != null) {
-            binding.textId.text = item.id.toString()
-            binding.textName.text = item.name
-            binding.textDescription.text = item.description
-        } else {
-            findNavController().popBackStack()
+        viewModel.list.observe(viewLifecycleOwner) {
+            val item = it.firstOrNull { item -> item.id == idArg }
+            if (item != null) {
+                binding.textId.text = item.id.toString()
+                binding.textName.text = item.name
+                binding.textDescription.text = item.description
+            } else {
+                findNavController().popBackStack()
+            }
         }
     }
 }

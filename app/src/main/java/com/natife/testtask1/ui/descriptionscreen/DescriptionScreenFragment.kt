@@ -5,16 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.natife.testtask1.databinding.FragmentDescriptionScreenBinding
+import com.natife.testtask1.ui.descriptionscreen.descriptionviewmodel.DescriptionViewModel
 import com.natife.testtask1.utils.Const
-import com.natife.testtask1.viewmodel.SharedViewModel
 
 class DescriptionScreenFragment : Fragment() {
 
     private lateinit var binding: FragmentDescriptionScreenBinding
-    private val viewModel: SharedViewModel by activityViewModels()
+    private val viewModel: DescriptionViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,17 +27,22 @@ class DescriptionScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val idArg = arguments?.getInt(Const.BUNDLE_VAL)
+        val id = arguments?.getInt(Const.BUNDLE_VAL, Const.DEFAULT_VAL) ?: Const.DEFAULT_VAL
 
-        viewModel.list.observe(viewLifecycleOwner) {
-            val item = it.firstOrNull { item -> item.id == idArg }
-            if (item != null) {
-                binding.textId.text = item.id.toString()
-                binding.textName.text = item.name
-                binding.textDescription.text = item.description
-            } else {
-                findNavController().popBackStack()
-            }
+        if (id != Const.DEFAULT_VAL) {
+            viewModel.setId(id)
+        } else {
+            findNavController().popBackStack()
+        }
+
+        initObserve()
+    }
+
+    private fun initObserve() {
+        viewModel.item.observe(viewLifecycleOwner) { item ->
+            binding.textId.text = item.id.toString()
+            binding.textName.text = item.name
+            binding.textDescription.text = item.description
         }
     }
 }

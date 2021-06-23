@@ -15,8 +15,7 @@ import com.natife.testtask1.databinding.FragmentMainScreenBinding
 import com.natife.testtask1.ui.mainscreen.adapter.CustomRecyclerAdapter
 import com.natife.testtask1.utils.Const
 import com.natife.testtask1.utils.PreferenceHelper
-import com.natife.testtask1.utils.PreferenceHelper.id
-import com.natife.testtask1.viewmodel.SharedViewModel
+import com.natife.testtask1.ui.mainscreen.mainviewmodel.MainViewModel
 
 class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener {
 
@@ -24,8 +23,7 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener
     private lateinit var binding: FragmentMainScreenBinding
     private val adapter: CustomRecyclerAdapter by lazy { CustomRecyclerAdapter(this) }
 
-    //    private var listItems = mutableListOf<Item>()
-    private val viewModel: SharedViewModel by activityViewModels()
+    private val viewModel: MainViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -56,8 +54,7 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener
     }
 
     override fun onItemClicked(id: Int) {
-        preferences.id = id
-
+        viewModel.saveItemId(id)
         val bundle = bundleOf(Const.BUNDLE_VAL to id)
         findNavController().navigate(R.id.navigateToDescriptionScreen, bundle)
     }

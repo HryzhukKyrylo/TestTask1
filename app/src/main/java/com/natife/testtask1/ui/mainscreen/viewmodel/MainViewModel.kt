@@ -1,16 +1,11 @@
 package com.natife.testtask1.ui.mainscreen.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.content.SharedPreferences
 import com.natife.testtask1.ui.mainscreen.MainIntent
 import com.natife.testtask1.ui.mainscreen.MainState
 import com.natife.testtask1.ui.mainscreen.interactor.MainInteractorImpl
 import com.natife.testtask1.ui.mainscreen.reducer.MainReducerImpl
 
-/**
- *@author admin
- */
 class MainViewModel(
     private val testInteractor: MainInteractorImpl
 ) : BaseMainViewModel<MainIntent, MainState>(
@@ -20,6 +15,8 @@ class MainViewModel(
     fun fetchItems() {
         send(MainIntent.Load, testInteractor)
     }
+    fun saveId(id: Int, preferences: SharedPreferences){
+        save(MainIntent.Save,testInteractor,id,preferences)
+    }
 
 }
-

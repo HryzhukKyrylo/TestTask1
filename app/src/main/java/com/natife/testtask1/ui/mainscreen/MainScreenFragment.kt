@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natife.testtask1.R
-import com.natife.testtask1.data.Item
 import com.natife.testtask1.databinding.FragmentMainScreenBinding
 import com.natife.testtask1.ui.mainscreen.adapter.CustomRecyclerAdapter
 import com.natife.testtask1.ui.mainscreen.interactor.MainInteractorImpl
@@ -20,14 +19,12 @@ import com.natife.testtask1.ui.mainscreen.viewmodel.MainViewModel
 import com.natife.testtask1.ui.mainscreen.viewmodel.MainViewModelFactory
 import com.natife.testtask1.utils.Const
 import com.natife.testtask1.utils.PreferenceHelper
-import com.natife.testtask1.utils.PreferenceHelper.id
 
 class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener {
 
     private lateinit var preferences: SharedPreferences
     private lateinit var binding: FragmentMainScreenBinding
     private val adapter: CustomRecyclerAdapter by lazy { CustomRecyclerAdapter(this) }
-    private var listItems = mutableListOf<Item>()
 
     private val interactorImpl = MainInteractorImpl()
     private lateinit var viewModel: MainViewModel
@@ -40,48 +37,43 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener
         binding = FragmentMainScreenBinding.inflate(inflater, container, false)
 
         viewModelFactory = MainViewModelFactory(interactorImpl)
-        viewModel = ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
-        preferences = PreferenceHelper.customPreference(requireContext(),Const.CUSTOM_PREF_NAME)
+        preferences = PreferenceHelper.customPreference(requireContext(), Const.CUSTOM_PREF_NAME)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        init()
+        initRecycler()
 
-        viewModel.state.observe(viewLifecycleOwner){
+        viewModel.state.observe(viewLifecycleOwner) {
             handleState(it)
         }
 
         viewModel.fetchItems()
-//        generateItems()
-//        updateListRecycler()
     }
-    private fun handleState(newState: MainState){
-        when (newState){
-            MainState.Nothing -> Toast.makeText(requireContext(), "Nothing", Toast.LENGTH_SHORT).show()
-            MainState.Loading -> Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
+
+    private fun handleState(newState: MainState) {
+        when (newState) {
+            MainState.Nothing -> Toast.makeText(requireContext(), "Nothing", Toast.LENGTH_SHORT)
+                .show()
+            MainState.Loading -> Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT)
+                .show()
+//            MainState ->
             is MainState.Data -> adapter.submitList(newState.items)
-         }
+        }
     }
 
-//    private fun updateListRecycler() {
-//        adapter.submitList(listItems)
-//    }
-//
-//    private fun generateItems() {
-//        listItems.addAll(ItemHolder.items)
-//    }
 
-    private fun init() {
+    private fun initRecycler() {
         binding.recyclerItems.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerItems.adapter = adapter
     }
 
     override fun onItemClicked(id: Int) {
-        preferences.id = id
+        viewModel.saveId(id,preferences)
 
         val bundle = bundleOf(Const.BUNDLE_VAL to id)
         findNavController().navigate(R.id.navigateToDescriptionScreen, bundle)

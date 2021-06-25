@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.natife.testtask1.data.Item
 import com.natife.testtask1.databinding.FragmentDescriptionScreenBinding
-import com.natife.testtask1.ui.descriptionscreen.interactor.DescriptionInteractorImpl
+import com.natife.testtask1.ui.descriptionscreen.interactor.GetItemByIdInteractor
 import com.natife.testtask1.ui.descriptionscreen.viewmodel.DescriptionViewModel
 import com.natife.testtask1.ui.descriptionscreen.viewmodel.DescriptionViewModelFactory
 import com.natife.testtask1.utils.Const
@@ -18,7 +18,7 @@ class DescriptionScreenFragment : Fragment() {
 
     private lateinit var binding: FragmentDescriptionScreenBinding
 
-    private val interactorImpl = DescriptionInteractorImpl()
+    private val interactorImpl = GetItemByIdInteractor()
     private lateinit var viewModel: DescriptionViewModel
     private lateinit var viewModelFactory: DescriptionViewModelFactory
 
@@ -28,6 +28,20 @@ class DescriptionScreenFragment : Fragment() {
     ): View {
         binding = FragmentDescriptionScreenBinding.inflate(inflater, container, false)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+       initViewModel()
+
+        viewModel.state.observe(viewLifecycleOwner) {
+            handleState(it)
+        }
+        viewModel.fetchItems()
+    }
+
+    private fun initViewModel() {
         val idArg = arguments?.getInt(Const.BUNDLE_VAL, Const.DEFAULT_VAL)
         if (idArg != null && idArg != Const.DEFAULT_VAL) {
             viewModelFactory = DescriptionViewModelFactory(
@@ -40,21 +54,11 @@ class DescriptionScreenFragment : Fragment() {
         } else {
             findNavController().popBackStack()
         }
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.state.observe(viewLifecycleOwner) {
-            handleState(it)
-        }
-        viewModel.fetchItems()
-
     }
 
     private fun handleState(state: DescriptionState) {
-        if (state.isLoading) {
+
+        if (state is DescriptionState.DataItem) {
             initView(state.item!!)
         }
     }

@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.natife.testtask1.R
 import com.natife.testtask1.databinding.FragmentMainScreenBinding
 import com.natife.testtask1.ui.mainscreen.adapter.CustomRecyclerAdapter
-import com.natife.testtask1.ui.mainscreen.interactor.MainInteractorImpl
 import com.natife.testtask1.ui.mainscreen.viewmodel.MainViewModel
 import com.natife.testtask1.ui.mainscreen.viewmodel.MainViewModelFactory
 import com.natife.testtask1.utils.Const
@@ -26,7 +25,6 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener
     private lateinit var binding: FragmentMainScreenBinding
     private val adapter: CustomRecyclerAdapter by lazy { CustomRecyclerAdapter(this) }
 
-    private val interactorImpl = MainInteractorImpl()
     private lateinit var viewModel: MainViewModel
     private lateinit var viewModelFactory: MainViewModelFactory
 
@@ -36,15 +34,12 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener
     ): View {
         binding = FragmentMainScreenBinding.inflate(inflater, container, false)
 
-        viewModelFactory = MainViewModelFactory(interactorImpl)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
-
-        preferences = PreferenceHelper.customPreference(requireContext(), Const.CUSTOM_PREF_NAME)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initialize()
 
         initRecycler()
 
@@ -53,6 +48,14 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener
         }
 
         viewModel.fetchItems()
+    }
+
+    private fun initialize() {
+        preferences = PreferenceHelper.customPreference(requireContext(), Const.CUSTOM_PREF_NAME)
+
+        viewModelFactory = MainViewModelFactory(preferences)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+
     }
 
     private fun handleState(newState: MainState) {
@@ -74,7 +77,7 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener
     }
 
     override fun onItemClicked(id: Int) {
-        viewModel.saveId(id, preferences)
+        viewModel.saveId(id)
 
         val bundle = bundleOf(Const.BUNDLE_VAL to id)
         findNavController().navigate(R.id.navigateToDescriptionScreen, bundle)

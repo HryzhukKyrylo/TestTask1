@@ -2,10 +2,10 @@ package com.natife.testtask1.ui.descriptionscreen.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.natife.testtask1.ui.descriptionscreen.interactor.DescriptionInteractorImpl
+import com.natife.testtask1.ui.descriptionscreen.interactor.GetItemByIdInteractor
 
 class DescriptionViewModelFactory(
-    private val descrInteractor: DescriptionInteractorImpl,
+    private val descrInteractor: GetItemByIdInteractor,
     private val itemId: Int
 ) :
     ViewModelProvider.Factory {

@@ -1,18 +1,19 @@
 package com.natife.testtask1.ui.descriptionscreen.viewmodel
 
+import com.natife.testtask1.base.BaseViewModel
 import com.natife.testtask1.ui.descriptionscreen.DescriptionIntent
 import com.natife.testtask1.ui.descriptionscreen.DescriptionState
-import com.natife.testtask1.ui.descriptionscreen.interactor.DescriptionInteractorImpl
+import com.natife.testtask1.ui.descriptionscreen.interactor.GetItemByIdInteractor
 import com.natife.testtask1.ui.descriptionscreen.reducer.DescriptionReducerImpl
 
 class DescriptionViewModel(
-    private val descInteractor: DescriptionInteractorImpl,
+    private val descInteractor: GetItemByIdInteractor,
     private val itemId: Int
-) : BaseDescriptionViewModel<DescriptionIntent, DescriptionState>(
+) : BaseViewModel<DescriptionIntent, DescriptionState>(
     reducer = DescriptionReducerImpl(itemId)
 ) {
 
     fun fetchItems() {
-        send(DescriptionIntent(isLoading = true, itemId = itemId, item = null), descInteractor)
+        send(DescriptionIntent.FetchItem(itemId = itemId,item = null), descInteractor)
     }
 }

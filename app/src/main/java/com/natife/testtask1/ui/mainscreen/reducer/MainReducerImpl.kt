@@ -1,9 +1,10 @@
 package com.natife.testtask1.ui.mainscreen.reducer
 
+import com.natife.testtask1.base.BaseReducer
 import com.natife.testtask1.ui.mainscreen.MainIntent
 import com.natife.testtask1.ui.mainscreen.MainState
 
-class MainReducerImpl : MainRecuder<MainIntent, MainState> {
+class MainReducerImpl : BaseReducer<MainIntent, MainState> {
     override val initialState: MainState = MainState.Nothing
 
     override fun reduce(intent: MainIntent, state: MainState): MainState {

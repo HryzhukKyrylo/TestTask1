@@ -1,28 +1,18 @@
 package com.natife.testtask1.ui.descriptionscreen.reducer
 
+import com.natife.testtask1.base.BaseReducer
 import com.natife.testtask1.ui.descriptionscreen.DescriptionIntent
 import com.natife.testtask1.ui.descriptionscreen.DescriptionState
-import com.natife.testtask1.utils.ItemHolder
 
-class DescriptionReducerImpl(private val itemId: Int) :
-    DescriptionReducer<DescriptionIntent, DescriptionState> {
+class DescriptionReducerImpl ( private val itemId: Int):
+    BaseReducer<DescriptionIntent, DescriptionState> {
 
-    override val initialState = DescriptionState(
-        isLoading = false,
-        itemId = itemId,
-        item = null
-    )
+    override val initialState : DescriptionState = DescriptionState.Nothing
 
     override fun reduce(intent: DescriptionIntent, state: DescriptionState): DescriptionState {
-        return when (intent.isLoading){
-            true -> {
-                val item = ItemHolder.items.firstOrNull { it.id == intent.itemId }
-
-                state.copy(isLoading = true, itemId = itemId, item = item)
-            }
-            else -> {
-                state
-            }
+        return when(intent){
+            is DescriptionIntent.FetchItem -> DescriptionState.DataItem(intent.item, itemId)
+            else -> state
         }
     }
 }

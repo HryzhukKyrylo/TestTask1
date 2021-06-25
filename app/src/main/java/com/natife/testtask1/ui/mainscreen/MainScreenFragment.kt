@@ -61,7 +61,8 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener
                 .show()
             MainState.Loading -> Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT)
                 .show()
-//            MainState ->
+            is MainState.Id -> Toast.makeText(requireContext(), "Id is saved!", Toast.LENGTH_SHORT)
+                .show()
             is MainState.Data -> adapter.submitList(newState.items)
         }
     }
@@ -73,7 +74,7 @@ class MainScreenFragment : Fragment(), CustomRecyclerAdapter.OnItemClickListener
     }
 
     override fun onItemClicked(id: Int) {
-        viewModel.saveId(id,preferences)
+        viewModel.saveId(id, preferences)
 
         val bundle = bundleOf(Const.BUNDLE_VAL to id)
         findNavController().navigate(R.id.navigateToDescriptionScreen, bundle)

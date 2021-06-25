@@ -4,9 +4,6 @@ import com.natife.testtask1.ui.descriptionscreen.DescriptionIntent
 import com.natife.testtask1.ui.descriptionscreen.DescriptionState
 import com.natife.testtask1.utils.ItemHolder
 
-/**
- *@author admin
- */
 class DescriptionInteractorImpl : DescriptionInteractor<DescriptionIntent, DescriptionState> {
     override fun invoke(intent: DescriptionIntent, state: DescriptionState): DescriptionIntent {
         return if (intent.isLoading) {

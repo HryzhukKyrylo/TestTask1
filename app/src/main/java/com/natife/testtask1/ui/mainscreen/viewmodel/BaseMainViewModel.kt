@@ -7,10 +7,6 @@ import androidx.lifecycle.ViewModel
 import com.natife.testtask1.ui.mainscreen.interactor.MainInteractor
 import com.natife.testtask1.ui.mainscreen.reducer.MainRecuder
 
-/**
- *@author admin
- */
-
 abstract class BaseMainViewModel<Intent, State>(
     private val reducer: MainRecuder<Intent, State>
 ) : ViewModel() {
@@ -23,10 +19,16 @@ abstract class BaseMainViewModel<Intent, State>(
         val resultIntent = interactor.invoke(intent, mutableState.value!!)
         mutableState.value = reducer.reduce(resultIntent, mutableState.value!!)
 
-    }fun save(intent: Intent, interactor: MainInteractor<Intent, State>, id:Int,preferences: SharedPreferences) {
-        mutableState.value = reducer.reduce(intent, mutableState.value!!)
-        val resultIntent = interactor.saveId(intent, mutableState.value!!,id,preferences)
-        mutableState.value = reducer.reduce(resultIntent, mutableState.value!!)
     }
 
+    fun save(
+        intent: Intent,
+        interactor: MainInteractor<Intent, State>,
+        id: Int,
+        preferences: SharedPreferences
+    ) {
+        mutableState.value = reducer.reduce(intent, mutableState.value!!)
+        val resultIntent = interactor.saveId(intent, mutableState.value!!, id, preferences)
+        mutableState.value = reducer.reduce(resultIntent, mutableState.value!!)
+    }
 }

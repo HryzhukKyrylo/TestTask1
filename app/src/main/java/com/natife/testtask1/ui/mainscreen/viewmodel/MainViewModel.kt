@@ -15,8 +15,8 @@ class MainViewModel(
     fun fetchItems() {
         send(MainIntent.Load, testInteractor)
     }
-    fun saveId(id: Int, preferences: SharedPreferences){
-        save(MainIntent.Save,testInteractor,id,preferences)
-    }
 
+    fun saveId(id: Int, preferences: SharedPreferences) {
+        save(MainIntent.Save, testInteractor, id, preferences)
+    }
 }

@@ -9,21 +9,13 @@ import com.natife.testtask1.utils.PreferenceHelper.id
 class MainInteractorImpl : MainInteractor<MainIntent, MainState> {
 
     override fun invoke(intent: MainIntent, state: MainState): MainIntent {
-        return when(intent){
+        return when (intent) {
             is MainIntent.Load -> {
                 val items = ItemHolder.items
-            MainIntent.DataLoaded(items)
+                MainIntent.DataLoaded(items)
             }
             else -> MainIntent.Nothing
         }
-
-
-//        return if (intent is MainIntent.Load) {
-//            val items = ItemHolder.items
-//            MainIntent.DataLoaded(items)
-//        } else {
-//            MainIntent.Nothing
-//        }
     }
 
     override fun saveId(
@@ -32,16 +24,9 @@ class MainInteractorImpl : MainInteractor<MainIntent, MainState> {
         id: Int,
         preferences: SharedPreferences
     ): MainIntent {
-        return when(intent){
-//            is MainIntent.Load -> {
-//                val items = ItemHolder.items
-//                MainIntent.DataLoaded(items)
-//            }
-            is MainIntent.Save -> {
-                preferences.id = id
-                MainIntent.SaveId(id)
-            }
-            else -> MainIntent.Nothing
-        }    }
-
+        return if (intent is MainIntent.Save) {
+            preferences.id = id
+            MainIntent.SaveId(id)
+        } else intent
+    }
 }

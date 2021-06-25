@@ -4,11 +4,9 @@ import com.natife.testtask1.ui.descriptionscreen.DescriptionIntent
 import com.natife.testtask1.ui.descriptionscreen.DescriptionState
 import com.natife.testtask1.utils.ItemHolder
 
-/**
- *@author admin
- */
 class DescriptionReducerImpl(private val itemId: Int) :
     DescriptionReducer<DescriptionIntent, DescriptionState> {
+
     override val initialState = DescriptionState(
         isLoading = false,
         itemId = itemId,

@@ -6,9 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.natife.testtask1.ui.descriptionscreen.interactor.DescriptionInteractor
 import com.natife.testtask1.ui.descriptionscreen.reducer.DescriptionReducer
 
-/**
- *@author admin
- */
 abstract class BaseDescriptionViewModel<Intent, State>(
     private val reducer: DescriptionReducer<Intent, State>
 ) : ViewModel() {

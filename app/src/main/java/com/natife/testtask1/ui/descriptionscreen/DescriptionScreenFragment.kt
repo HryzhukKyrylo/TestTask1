@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -33,7 +34,7 @@ class DescriptionScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       initViewModel()
+        initViewModel()
 
         viewModel.state.observe(viewLifecycleOwner) {
             handleState(it)
@@ -57,9 +58,13 @@ class DescriptionScreenFragment : Fragment() {
     }
 
     private fun handleState(state: DescriptionState) {
-
-        if (state is DescriptionState.DataItem) {
-            initView(state.item!!)
+        when (state) {
+            is DescriptionState.Loading -> Toast.makeText(
+                requireContext(),
+                "Loading...",
+                Toast.LENGTH_LONG
+            ).show()
+            is DescriptionState.DataItem -> state.item?.also { initView(it) }
         }
     }
 

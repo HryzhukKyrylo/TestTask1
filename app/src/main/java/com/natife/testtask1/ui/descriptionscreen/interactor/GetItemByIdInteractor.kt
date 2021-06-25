@@ -8,9 +8,9 @@ import com.natife.testtask1.utils.ItemHolder
 class GetItemByIdInteractor : BaseInteractor<DescriptionIntent, DescriptionState> {
     override fun invoke(intent: DescriptionIntent, state: DescriptionState): DescriptionIntent {
         return when (intent) {
-            is DescriptionIntent.FetchItem -> {
+            is DescriptionIntent.LoadItem -> {
                 val foundItem = ItemHolder.items.firstOrNull { it.id == intent.itemId }
-                DescriptionIntent.FetchItem(item = foundItem, itemId = intent.itemId)
+                DescriptionIntent.FetchItem(item = foundItem)
             }
             else -> intent
         }

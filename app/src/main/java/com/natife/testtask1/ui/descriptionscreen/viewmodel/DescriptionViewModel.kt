@@ -10,10 +10,10 @@ class DescriptionViewModel(
     private val descInteractor: GetItemByIdInteractor,
     private val itemId: Int
 ) : BaseViewModel<DescriptionIntent, DescriptionState>(
-    reducer = DescriptionReducerImpl(itemId)
+    reducer = DescriptionReducerImpl()
 ) {
 
     fun fetchItems() {
-        send(DescriptionIntent.FetchItem(itemId = itemId,item = null), descInteractor)
+        send(DescriptionIntent.LoadItem(itemId), descInteractor)
     }
 }
